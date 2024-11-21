@@ -57,7 +57,7 @@ const productCategories: ProductCategory[] = [
   {
     name: 'Gıda Ambalaj Ürünleri',
     description: 'Gıda güvenliği ve tazeliği için yüksek kaliteli ambalaj çözümleri.',
-    image: '/images/gida-ambalaj-urunleri.jpg',
+    image: '/images/gida-ambalaj-urunleri.png',
     subProducts: [
       { name: 'Streç Film', description: 'Gıda koruma için yüksek kaliteli streç film.', features: ['Yüksek esneklik', 'Oksijen bariyeri', 'Gıda güvenliği onaylı'], image: '/images/strec-film.jpg' },
       { name: 'Alüminyum Folyo', description: 'Pişirme ve saklama için dayanıklı alüminyum folyo.', features: ['Isı yalıtımı', 'Geri dönüştürülebilir', 'Çoklu kullanım'], image: '/images/aluminyum-folyo.jpg' },
