@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, Facebook, Instagram, Linkedin, Twitter, Award, Users, Lightbulb, Headphones, Globe, Leaf, Menu } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Facebook, Instagram, Linkedin, Twitter, Award, Users, Lightbulb, Headphones, Globe, Leaf, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -13,10 +13,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog"
-import { motion, AnimatePresence } from "framer-motion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { TeklifForm } from '@/components/TeklifForm'
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { motion, AnimatePresence } from "framer-motion"
 
 const whyUsData = [
   { title: 'Kaliteli Ürünler', description: 'Uluslararası standartlara uygun yüksek kaliteli kimyasal ürünler sunuyoruz.', icon: Award },
@@ -62,7 +66,66 @@ const productCategories: ProductCategory[] = [
       { name: 'Kağıt Bardaklar', description: 'Tek kullanımlık kağıt bardaklar.', features: ['Sıcak ve soğuk içecekler için uygun', 'Çevre dostu', 'Özelleştirilebilir tasarım'], image: '/images/kagit-bardaklar.jpg' },
     ],
   },
-  // Diğer ürün kategorileri buraya eklenebilir...
+  {
+    name: 'Endüstriyel Ambalaj Ürünleri',
+    description: 'Endüstriyel kullanım için dayanıklı ambalaj çözümleri.',
+    image: '/images/endustriyel-ambalaj-urunleri.jpg',
+    subProducts: [
+      { name: 'Palet Örtüleri', description: 'Paletleri korumak için dayanıklı örtüler.', features: ['Su geçirmez', 'UV dirençli', 'Yeniden kullanılabilir'], image: '/images/palet-ortuleri.jpg' },
+      { name: 'Endüstriyel Filmler', description: 'Ağır yük için yüksek mukavemetli filmler.', features: ['Yüksek dayanıklılık', 'Esneklik', 'Çeşitli boyutlar'], image: '/images/endustriyel-filmler.jpg' },
+      { name: 'Koruyucu Köpükler', description: 'Hassas ürünler için koruyucu köpükler.', features: ['Şok emici', 'Hafif', 'Kesilebilir'], image: '/images/koruyucu-kopukler.jpg' },
+    ],
+  },
+  {
+    name: 'Çöp Poşetleri',
+    description: 'Ev ve endüstriyel kullanım için çeşitli çöp poşetleri.',
+    image: '/images/cop-posetleri.jpg',
+    subProducts: [
+      { name: 'Ev Tipi Çöp Poşetleri', description: 'Günlük kullanım için dayanıklı çöp poşetleri.', features: ['Sızıntı önleyici', 'Kolay bağlanabilir', 'Çeşitli boyutlar'], image: '/images/ev-tipi-cop-posetleri.jpg' },
+      { name: 'Endüstriyel Çöp Poşetleri', description: 'Yüksek hacimli atıklar için büyük boy poşetler.', features: ['Ekstra dayanıklı', 'Yırtılmaya dirençli', 'Yüksek kapasite'], image: '/images/endustriyel-cop-posetleri.jpg' },
+      { name: 'Geri Dönüşüm Poşetleri', description: 'Geri dönüşüm için renk kodlu poşetler.', features: ['Renk kodlaması', 'Biyobozunur seçenekler', 'Çevre dostu'], image: '/images/geri-donusum-posetleri.jpg' },
+    ],
+  },
+  {
+    name: 'Bantlar',
+    description: 'Çeşitli kullanımlar için yapışkan bantlar.',
+    image: '/images/bantlar.jpg',
+    subProducts: [
+      { name: 'Paketleme Bantları', description: 'Kutu ve paketleri kapatmak için güçlü bantlar.', features: ['Yüksek yapışma gücü', 'Kolay açılır', 'Çeşitli genişlikler'], image: '/images/paketleme-bantlari.jpg' },
+      { name: 'Maskeleme Bantları', description: 'Boyama ve hassas işler için maskeleme bantları.', features: ['Hassas yüzeylere uygun', 'Kolay çıkarılabilir', 'Keskin boya hatları'], image: '/images/maskeleme-bantlari.jpg' },
+      { name: 'Çift Taraflı Bantlar', description: 'Montaj ve yapıştırma için çift taraflı bantlar.', features: ['Güçlü yapışma', 'İnce ve şeffaf', 'Çeşitli yüzeylere uygun'], image: '/images/cift-tarafli-bantlar.jpg' },
+    ],
+  },
+  {
+    name: 'Gıda Kapları',
+    description: 'Gıda saklama ve servis için çeşitli kaplar.',
+    image: '/images/gida-kaplari.jpg',
+    subProducts: [
+      { name: 'Plastik Saklama Kapları', description: 'Yiyecekleri saklamak için dayanıklı plastik kaplar.', features: ['Sızdırmaz', 'Mikrodalga uyumlu', 'Bulaşık makinesi güvenli'], image: '/images/plastik-saklama-kaplari.jpg' },
+      { name: 'Alüminyum Folyo Kaplar', description: 'Tek kullanımlık alüminyum folyo kaplar.', features: ['Fırına dayanıklı', 'Kolay şekil verilebilir', 'Geri dönüştürülebilir'], image: '/images/aluminyum-folyo-kaplar.jpg' },
+      { name: 'Kağıt Yemek Kutuları', description: 'Paket servis için kağıt yemek kutuları.', features: ['Yağ geçirmez', 'Sıcak yemeklere uygun', 'Çevre dostu'], image: '/images/kagit-yemek-kutulari.jpg' },
+    ],
+  },
+  {
+    name: 'Gıda Servis Ürünleri',
+    description: 'Yemek servisi için tek kullanımlık ürünler.',
+    image: '/images/gida-servis-urunleri.jpg',
+    subProducts: [
+      { name: 'Plastik Çatal Bıçak Takımları', description: 'Tek kullanımlık plastik çatal, kaşık ve bıçaklar.', features: ['Dayanıklı', 'Çeşitli renk seçenekleri', 'Ekonomik'], image: '/images/plastik-catal-bicak-takimlari.jpg' },
+      { name: 'Kağıt Peçeteler', description: 'Yumuşak ve emici kağıt peçeteler.', features: ['Yüksek emicilik', 'Cilt dostu', 'Çeşitli boyutlar'], image: '/images/kagit-peceteler.jpg' },
+      { name: 'Pipetler', description: 'İçecekler için çeşitli pipetler.', features: ['Plastik ve kağıt seçenekleri', 'Bükülebilir', 'Hijyenik paketleme'], image: '/images/pipetler.jpg' },
+    ],
+  },
+  {
+    name: 'Hijyen ve Temizlik Ürünleri',
+    description: 'Kişisel ve mekan hijyeni için temizlik ürünleri.',
+    image: '/images/hijyen-ve-temizlik-urunleri.jpg',
+    subProducts: [
+      { name: 'El Dezenfektanları', description: 'Hızlı ve etkili el temizliği için dezenfektanlar.', features: ['Alkol bazlı', 'Hızlı kuruyan', 'Cilt dostu formül'], image: '/images/el-dezenfektanlari.jpg' },
+      { name: 'Temizlik Bezleri', description: 'Çok amaçlı kullanım için temizlik bezleri.', features: ['Yüksek emicilik', 'Dayanıklı', 'Yeniden kullanılabilir'], image: '/images/temizlik-bezleri.jpg' },
+      { name: 'Yüzey Temizleyiciler', description: 'Çeşitli yüzeyler için etkili temizleyiciler.', features: ['Çok amaçlı', 'Konsantre formül', 'Hoş koku'], image: '/images/yuzey-temizleyiciler.jpg' },
+    ],
+  },
 ]
 
 export default function Home() {
@@ -91,6 +154,37 @@ export default function Home() {
   const scrollToUrunlerimiz = () => {
     urunlerimizRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      product: formData.get('product'),
+      message: formData.get('message')
+    };
+
+    try {
+      const response = await fetch('/api/submit-teklif', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert('Teklif başarıyla gönderildi!');
+        // Form alanlarını temizle veya modal'ı kapat
+      } else {
+        alert('Teklif gönderilirken bir hata oluştu.');
+      }
+    } catch (error) {
+      console.error('Hata:', error);
+      alert('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FDF6E9]">
@@ -228,7 +322,7 @@ export default function Home() {
                       <CardTitle className="text-[#c89454]">{category.name}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                <Image
+                      <Image
                         src={category.image}
                         alt={category.name}
                         width={300}
@@ -244,51 +338,111 @@ export default function Home() {
                             Detayları Gör
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px]">
-                          <DialogHeader>
-                            <DialogTitle className="text-[#c89454]">{selectedProduct.name}</DialogTitle>
-                            <DialogDescription>Ürün Detayları</DialogDescription>
-                          </DialogHeader>
+                        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+                          <div className="sticky top-0 bg-white z-10 pb-4 mb-4 border-b flex justify-between items-center">
+                            <DialogHeader>
+                              <DialogTitle className="text-[#c89454]">{category.name}</DialogTitle>
+                              <DialogDescription>Ürün Detayları</DialogDescription>
+                            </DialogHeader>
+                            <DialogClose asChild>
+                              <Button variant="ghost" className="p-2 rounded-full hover:bg-gray-200">
+                                <X className="h-4 w-4" />
+                                <span className="sr-only">Kapat</span>
+                              </Button>
+                            </DialogClose>
+                          </div>
                           <div className="grid gap-4 py-4">
-                            {selectedProduct.subProducts.map((subProduct, subIndex) => (
-                              <div key={subIndex} className="border-b pb-4 last:border-b-0">
+                            {category.subProducts.map((subProduct, subIndex) => (
+                              <div key={subIndex} className="border rounded-lg p-4">
                                 <Button
                                   onClick={() => setSelectedSubProduct(subProduct)}
                                   className="w-full justify-start text-left bg-[#FDF6E9] text-[#c89454] hover:bg-[#c89454] hover:text-white"
                                 >
                                   {subProduct.name}
                                 </Button>
-                                {selectedSubProduct === subProduct && (
-                                  <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: 'auto', opacity: 1 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"
-                                  >
-                                    <Image
-                                      src={subProduct.image}
-                                      alt={subProduct.name}
-                                      width={300}
-                                      height={200}
-                                      className="w-full h-48 object-cover rounded-md"
-                                    />
-                                    <div>
-                                      <p className="text-gray-600 mb-2">{subProduct.description}</p>
-                                      <h4 className="font-semibold text-[#c89454] mb-2">Özellikler:</h4>
-                                      <ul className="list-disc list-inside">
-                                        {subProduct.features.map((feature, featureIndex) => (
-                                          <li key={featureIndex} className="text-gray-600">{feature}</li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  </motion.div>
-                                )}
+                                <AnimatePresence>
+                                  {selectedSubProduct === subProduct && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      transition={{ duration: 0.3 }}
+                                      className="mt-4 grid md:grid-cols-2 gap-4 overflow-hidden"
+                                    >
+                                      <Image
+                                        src={subProduct.image}
+                                        alt={subProduct.name}
+                                        width={300}
+                                        height={200}
+                                        className="w-full h-48 object-cover rounded-md"
+                                      />
+                                      <div>
+                                        <p className="text-gray-600 mb-2">{subProduct.description}</p>
+                                        <h4 className="font-semibold text-[#c89454] mb-2">Özellikler:</h4>
+                                        <ul className="list-disc list-inside">
+                                          {subProduct.features.map((feature, featureIndex) => (
+                                            <li key={featureIndex} className="text-gray-600">{feature}</li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
                               </div>
                             ))}
                           </div>
                         </DialogContent>
                       </Dialog>
-                      <TeklifForm productName={category.name} subProducts={category.subProducts} />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button className="bg-[#c89454] text-white hover:bg-[#b47d3c]">Teklif İste</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Teklif İste</DialogTitle>
+                            <DialogDescription>Bu ürün kategorisi için teklif istemek üzere aşağıdaki formu doldurun.</DialogDescription>
+                          </DialogHeader>
+                          <form className="grid gap-4 py-4" onSubmit={handleSubmit}>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="name" className="text-right">
+                                İsim
+                              </Label>
+                              <Input id="name" name="name" className="col-span-3" />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="email" className="text-right">
+                                E-posta
+                              </Label>
+                              <Input id="email" name="email" type="email" className="col-span-3" />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="product" className="text-right">
+                                Ürün
+                              </Label>
+                              <Select name="product" defaultValue={category.name}>
+                                <SelectTrigger className="col-span-3">
+                                  <SelectValue placeholder="Ürün seçin" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value={category.name}>{category.name}</SelectItem>
+                                  {category.subProducts.map((subProduct, index) => (
+                                    <SelectItem key={index} value={subProduct.name}>{subProduct.name}</SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="message" className="text-right">
+                                Mesaj
+                              </Label>
+                              <Textarea id="message" name="message" className="col-span-3" />
+                            </div>
+                            <DialogClose asChild>
+                              <Button type="submit" className="ml-auto bg-[#c89454] text-white hover:bg-[#b47d3c]">Teklif İste</Button>
+                            </DialogClose>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
                     </CardFooter>
                   </Card>
                 </motion.div>
