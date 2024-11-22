@@ -99,7 +99,7 @@ const productCategories: ProductCategory[] = [
   {
     name: 'Gıda Kapları',
     description: 'Gıda saklama ve servis için çeşitli kaplar.',
-    image: '/images/gida-kaplari.jpg',
+    image: '/images/gida-kaplari.webp',
     subProducts: [
       { name: 'Plastik Saklama Kapları', description: 'Yiyecekleri saklamak için dayanıklı plastik kaplar.', features: ['Sızdırmaz', 'Mikrodalga uyumlu', 'Bulaşık makinesi güvenli'], image: '/images/plastik-saklama-kaplari.jpg' },
       { name: 'Alüminyum Folyo Kaplar', description: 'Tek kullanımlık alüminyum folyo kaplar.', features: ['Fırına dayanıklı', 'Kolay şekil verilebilir', 'Geri dönüştürülebilir'], image: '/images/aluminyum-folyo-kaplar.jpg' },
