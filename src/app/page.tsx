@@ -131,7 +131,7 @@ const productCategories: ProductCategory[] = [
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [whyUsIndex, setWhyUsIndex] = useState(0)
-  const [selectedProduct, setSelectedProduct] = useState<ProductCategory>(productCategories[0])
+  const [selectedProduct, setSelectedProduct] = useState<ProductCategory | null>(null)
   const [selectedSubProduct, setSelectedSubProduct] = useState<SubProduct | null>(null)
   const urunlerimizRef = useRef<HTMLElement>(null)
 
@@ -341,7 +341,7 @@ export default function Home() {
                         <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
                           <div className="sticky top-0 bg-white z-10 pb-4 mb-4 border-b flex justify-between items-center">
                             <DialogHeader>
-                              <DialogTitle className="text-[#c89454]">{category.name}</DialogTitle>
+                              <DialogTitle className="text-[#c89454]">{selectedProduct?.name}</DialogTitle>
                               <DialogDescription>Ürün Detayları</DialogDescription>
                             </DialogHeader>
                             <DialogClose asChild>
@@ -352,7 +352,7 @@ export default function Home() {
                             </DialogClose>
                           </div>
                           <div className="grid gap-4 py-4">
-                            {category.subProducts.map((subProduct, subIndex) => (
+                            {selectedProduct?.subProducts.map((subProduct, subIndex) => (
                               <div key={subIndex} className="border rounded-lg p-4">
                                 <Button
                                   onClick={() => setSelectedSubProduct(subProduct)}
@@ -497,7 +497,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 text-center">
-            <p>&copy; 2024 Element Kimya. Tüm hakları saklıdır.</p>
+            <p>&copy; 2023 Element Kimya. Tüm hakları saklıdır.</p>
           </div>
         </div>
       </footer>
