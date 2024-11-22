@@ -49,7 +49,7 @@ const productCategories: ProductCategory[] = [
   {
     name: 'Gıda Ambalaj Ürünleri',
     description: 'Gıda güvenliği ve tazeliği için yüksek kaliteli ambalaj çözümleri.',
-    image: '/images/gida-ambalaj-urunleri.jpg',
+    image: '/images/gida-ambalaj-urunleri.png',
     subProducts: [
       { name: 'Streç Film', description: 'Gıda koruma için yüksek kaliteli streç film.', features: ['Yüksek esneklik', 'Oksijen bariyeri', 'Gıda güvenliği onaylı'], image: '/images/strec-film.jpg' },
       { name: 'Alüminyum Folyo', description: 'Pişirme ve saklama için dayanıklı alüminyum folyo.', features: ['Isı yalıtımı', 'Geri dönüştürülebilir', 'Çoklu kullanım'], image: '/images/aluminyum-folyo.jpg' },
@@ -137,8 +137,8 @@ export default function Home() {
 
   const slides = [
     { image: '/images/slide1.jpg', title: 'Element Kimya\'ya Hoş Geldiniz', description: 'Kimyasal çözümlerde güvenilir ortağınız' },
-    { image: '/images/slide2.jpg', title: 'Kaliteli Ürünler', description: 'Uluslararası standartlara uygun ürünler' },
-    { image: '/images/slide3.jpg', title: 'Müşteri Memnuniyeti', description: 'Müşteri odaklı hizmet anlayışımız' },
+    { image: '/images/slide2.png', title: 'Kaliteli Ürünler', description: 'Uluslararası standartlara uygun ürünler' },
+    { image: '/images/slide1.jpg', title: 'Müşteri Memnuniyeti', description: 'Müşteri odaklı hizmet anlayışımız' },
   ]
 
   useEffect(() => {
